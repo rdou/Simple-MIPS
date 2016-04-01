@@ -1,13 +1,13 @@
 module if_id(
-    // input port  
-    input               clk, 
+    // input port
+    input               clk,
     input               rst,
     input      [31 : 0] if_id_pc_i,
     input      [31 : 0] if_id_inst_i,
-    
-    // output port 
+
+    // output port
     output reg [31 : 0] if_id_pc_o,
-    output reg [31 : 0] if_id_inst_o 
+    output reg [31 : 0] if_id_inst_o
 );
 
     always @(posedge clk) begin
@@ -18,5 +18,5 @@ module if_id(
             if_id_pc_o   <= if_id_pc_i;
             if_id_inst_o <= if_id_inst_i;
         end
-    end 
+    end
 endmodule : if_id
