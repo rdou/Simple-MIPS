@@ -1,6 +1,5 @@
 module ex_alu(
     // input port
-    input           clk,
     input           rst,
     input  [7 : 0]  ex_alu_aluop_i,
     input  [2 : 0]  ex_alu_alusel_i,
@@ -11,7 +10,7 @@ module ex_alu(
     input           ex_alu_we_i,
 
     // output port
-    output reg [31 : 0] ex_alu_wdata_o
+    output reg [31 : 0] ex_alu_wdata_o,
     output reg [4 : 0]  ex_alu_waddr_o,
     output reg          ex_alu_we_o
 );
@@ -52,4 +51,4 @@ module ex_alu(
             endcase
         end
     end
-endmodule : ex_alu
+endmodule

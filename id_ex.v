@@ -1,6 +1,6 @@
 module id_ex(
-    input               id_ex_clk, 
-    input               id_ex_rst, 
+    input               clk, 
+    input               rst, 
     input [7 : 0]       id_ex_aluop_i,
     input [2 : 0]       id_ex_alusel_i,
     input [31 : 0]      id_ex_rdata_1_i,

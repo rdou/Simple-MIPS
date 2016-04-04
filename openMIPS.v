@@ -2,7 +2,7 @@ module open_MIPS(
     // input port
     input               clk,
     input               rst,
-    input               inst_rom_data_out_i,
+    input      [31 : 0] inst_rom_data_out_i,
 
     // output port
     output reg [31 : 0] inst_rom_addr_in_o,
@@ -13,7 +13,10 @@ module open_MIPS(
 * Reg/Wire Declaration
 ***************************************************/
     // IF stage
+    wire [31 : 0] if_pc_cur_pc_o_w;
+    wire [31 : 0] if_pc_cur_wb_pc_o_w; 
     wire [31 : 0] if_pc_next_pc_o_w;
+    wire          if_pc_ce_o_w; 
     wire [31 : 0] if_id_pc_o_w;
     wire [31 : 0] if_id_inst_o_w;
 
@@ -61,15 +64,25 @@ module open_MIPS(
 * IF STAGE
 ***************************************************/
     // PC module
+    assign if_pc_cur_wb_pc_o_w = rst ? if_pc_next_pc_o_w : 32'b0; 
+    
+    always @(*) begin
+        inst_rom_ce_o = if_pc_ce_o_w; 
+    end
+    
+    always @(*) begin 
+        inst_rom_addr_in_o = if_pc_cur_pc_o_w; 
+    end
+
     if_pc IF_PC(
         // input port
         .clk(clk),
         .rst(rst),
-        .if_pc_cur_pc_i(rst ? if_pc_next_pc_o_w : 32'b0),
+        .if_pc_cur_pc_i(if_pc_cur_wb_pc_o_w),
 
         // output port
-        .if_pc_ce_o(inst_rom_ce_o),
-        .if_pc_cur_pc_o(inst_rom_addr_in_o),
+        .if_pc_ce_o(if_pc_ce_o_w),
+        .if_pc_cur_pc_o(if_pc_cur_pc_o_w),
         .if_pc_next_pc_o(if_pc_next_pc_o_w)
     );
 
@@ -78,7 +91,7 @@ module open_MIPS(
         // input port
         .clk(clk),
         .rst(rst),
-        .if_id_pc_i(if_cur_pc_o_w),
+        .if_id_pc_i(if_pc_cur_pc_o_w),
         .if_id_inst_i(inst_rom_data_out_i),
 
         // output port
@@ -129,8 +142,8 @@ module open_MIPS(
 
     id_ex ID_EX(
         // input port
-        .id_ex_clk(clk),
-        .id_ex_rst(rst),
+        .clk(clk),
+        .rst(rst),
         .id_ex_aluop_i(id_decode_aluop_o_w),
         .id_ex_alusel_i(id_decode_alusel_o_w),
         .id_ex_rdata_1_i(id_regfile_rdata_1_o_w),
@@ -154,7 +167,6 @@ module open_MIPS(
 ***************************************************/
     ex_alu EX_ALU(
         // input port
-        .clk(clk),
         .rst(rst),
         .ex_alu_aluop_i(id_ex_aluop_o_w),
         .ex_alu_alusel_i(id_ex_alusel_o_w),
@@ -165,7 +177,7 @@ module open_MIPS(
         .ex_alu_we_i(id_ex_we_o_w),
 
         // output port
-        .ex_alu_wdat_o(ex_alu_wdata_o_w),
+        .ex_alu_wdata_o(ex_alu_wdata_o_w),
         .ex_alu_waddr_o(ex_alu_waddr_o_w),
         .ex_alu_we_o(ex_alu_we_o_w)
     );

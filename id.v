@@ -53,4 +53,4 @@ module id_decode(
             endcase
         end
     end
-endmodule : id_decode
+endmodule
