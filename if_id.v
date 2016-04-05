@@ -19,4 +19,4 @@ module if_id(
             if_id_inst_o <= if_id_inst_i;
         end
     end
-endmodule : if_id
+endmodule

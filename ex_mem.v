@@ -2,7 +2,7 @@ module ex_mem(
     // input port
     input               clk,
     input               rst,
-    input      [31 : 0] ex_mem_wdata_i
+    input      [31 : 0] ex_mem_wdata_i,
     input      [4 : 0]  ex_mem_waddr_i,
     input               ex_mem_we_i,
 
@@ -23,4 +23,4 @@ module ex_mem(
             ex_mem_we_o    <= ex_mem_we_i;
         end
     end
-endmodule : ex_mem
+endmodule

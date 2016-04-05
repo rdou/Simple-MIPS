@@ -12,14 +12,14 @@ module mem_data_mem(
 );
 
     always @(*) begin
-	    if(rst == `RstEnable) begin
-	        mem_data_mem_wdat_o  = 32'b0;
+	    if(rst == 1'b0) begin
+	        mem_data_mem_wdata_o  = 32'b0;
             mem_data_mem_waddr_o = 5'b0;
 	        mem_data_mem_we_o    = 1'b0;
-        else begin
-	        mem_data_mem_wdat_o  = mem_data_mem_wdata_i;
+        end else begin
+	        mem_data_mem_wdata_o  = mem_data_mem_wdata_i;
             mem_data_mem_waddr_o = mem_data_mem_waddr_i;
 	        mem_data_mem_we_o    = mem_data_mem_we_i;
         end
 	end
-endmodule : mem_data_mem
+endmodule
